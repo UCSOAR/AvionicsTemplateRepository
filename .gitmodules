@@ -1,3 +1,12 @@
 [submodule "SoarOS"]
 	path = SoarOS
 	url = https://github.com/UCSOAR/SoarOperatingSystem.git
+[submodule "SoarDrivers"]
+	path = SoarDrivers
+	url = https://github.com/UCSOAR/PeripheralDriversSubmodule.git
+[submodule "SoarProtocols"]
+	path = SoarProtocols
+	url = https://github.com/UCSOAR/SoarProtocolSubmodule.git
+[submodule "SoarCommunications"]
+	path = SoarCommunications
+	url = https://github.com/UCSOAR/CommunicationSystemsSubmodule.git
