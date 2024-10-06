@@ -22,8 +22,8 @@
 
 /* System Wide Includes
  * ------------------------------------------------------------------*/
-#include "UARTDriver.hpp"
 #include "main_avionics.hpp"  // C++ Main File Header
+#include "UARTDriver.hpp"
 
 /* Cube++ Required Configuration
  * ------------------------------------------------------------------*/
