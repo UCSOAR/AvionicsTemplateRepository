@@ -61,3 +61,13 @@ STM32L152-Discovery.elf.launch
 
 # VS2022
 .vs/
+
+# OS Specific
+**/.DS_Store
+
+# Compiled Files
+/Debug/
+/Release/
+
+# User
+*.orig

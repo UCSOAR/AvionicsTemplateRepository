@@ -6,12 +6,10 @@
  ******************************************************************************
 */
 /* Includes -----------------------------------------------------------------*/
+#include "DebugTask.hpp"
 #include "SystemDefines.hpp"
 #include "UARTDriver.hpp"
-
-// Tasks
 #include "CubeTask.hpp"
-#include "DebugTask.hpp"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
