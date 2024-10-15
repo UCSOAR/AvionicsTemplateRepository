@@ -806,3 +806,4 @@ void HAL_PWR_DisableSEVOnPend   (void);
 #endif /* __cplusplus */
 
 #endif /* STM32H7xx_HAL_PWR_H */
+

@@ -1578,7 +1578,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL2_DIVP) == RCC_PERIPHCLK_PLL2_DIVP)
   {
     ret = RCCEx_PLL2_Config(&(PeriphClkInit->PLL2), DIVIDER_P_UPDATE);
-
+    
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1587,14 +1587,14 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
     {
       /* set overall return value */
       status = ret;
-    }
+    } 
   }
-
-
+  
+  
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL2_DIVQ) == RCC_PERIPHCLK_PLL2_DIVQ)
   {
     ret = RCCEx_PLL2_Config(&(PeriphClkInit->PLL2), DIVIDER_Q_UPDATE);
-
+    
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1605,12 +1605,12 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       status = ret;
     }
   }
-
-
+  
+  
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL2_DIVR) == RCC_PERIPHCLK_PLL2_DIVR)
   {
     ret = RCCEx_PLL2_Config(&(PeriphClkInit->PLL2), DIVIDER_R_UPDATE);
-
+    
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1621,13 +1621,13 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       status = ret;
     }
   }
-
+  
 
   /*---------------------------- PLL3 configuration -------------------------------*/
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL3_DIVP) == RCC_PERIPHCLK_PLL3_DIVP)
   {
     ret = RCCEx_PLL3_Config(&(PeriphClkInit->PLL3), DIVIDER_P_UPDATE);
-
+  
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1638,12 +1638,12 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       status = ret;
     }
   }
-
-
+  
+  
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL3_DIVQ) == RCC_PERIPHCLK_PLL3_DIVQ)
   {
     ret = RCCEx_PLL3_Config(&(PeriphClkInit->PLL3), DIVIDER_Q_UPDATE);
-
+    
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1654,12 +1654,12 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       status = ret;
     }
   }
-
-
+  
+  
   if (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_PLL3_DIVR) == RCC_PERIPHCLK_PLL3_DIVR)
   {
     ret = RCCEx_PLL3_Config(&(PeriphClkInit->PLL3), DIVIDER_R_UPDATE);
-
+    
     if (ret == HAL_OK)
     {
       /*Nothing to do*/
@@ -1668,7 +1668,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
     {
       /* set overall return value */
       status = ret;
-    }
+    } 
   }
 
   if (status == HAL_OK)
@@ -3932,3 +3932,4 @@ __weak void HAL_RCCEx_LSECSS_Callback(void)
 /**
   * @}
   */
+
