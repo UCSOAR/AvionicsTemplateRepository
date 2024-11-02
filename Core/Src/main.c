@@ -254,9 +254,9 @@ static void MX_IWDG1_Init(void)
 
   /* USER CODE END IWDG1_Init 1 */
   hiwdg1.Instance = IWDG1;
-  hiwdg1.Init.Prescaler = IWDG_PRESCALER_16;
-  hiwdg1.Init.Window = 4095;
-  hiwdg1.Init.Reload = 4095;
+  hiwdg1.Init.Prescaler = IWDG_PRESCALER_64;
+  //hiwdg1.Init.Window = 4095;
+  hiwdg1.Init.Reload = 2499;
   if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
   {
     Error_Handler();
@@ -480,10 +480,14 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	while (1)
+	  {
+		  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
+		    {
+			  __disable_irq();
+			  HAL_NVIC_SystemReset();
+		    }
+	  }
   /* USER CODE END Error_Handler_Debug */
 }
 
