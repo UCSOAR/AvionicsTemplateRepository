@@ -555,3 +555,4 @@ uint32_t HAL_GetCurrentCPUID(void)
 /**
   * @}
   */
+

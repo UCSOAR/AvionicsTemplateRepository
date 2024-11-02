@@ -786,3 +786,4 @@ void HAL_PWREx_AVDCallback        (void);
 
 
 #endif /* STM32H7xx_HAL_PWR_EX_H */
+

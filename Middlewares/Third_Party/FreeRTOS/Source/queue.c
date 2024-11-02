@@ -1082,7 +1082,7 @@ Queue_t * const pxQueue = xQueue;
 					{
 						mtCOVERAGE_TEST_MARKER();
 					}
-
+					
 					/* Not used in this path. */
 					( void ) uxPreviousMessagesWaiting;
 				}
@@ -2931,3 +2931,15 @@ Queue_t * const pxQueue = xQueue;
 	}
 
 #endif /* configUSE_QUEUE_SETS */
+
+
+
+
+
+
+
+
+
+
+
+

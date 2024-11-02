@@ -457,3 +457,5 @@ uint32_t HAL_GetCurrentCPUID(void);
 #endif
 
 #endif /* STM32H7xx_HAL_CORTEX_H */
+
+

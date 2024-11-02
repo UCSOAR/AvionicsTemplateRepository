@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "RunInterface.hpp"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,6 +44,8 @@
 
 CRC_HandleTypeDef hcrc;
 
+IWDG_HandleTypeDef hiwdg1;
+
 QSPI_HandleTypeDef hqspi;
 
 osThreadId defaultTaskHandle;
@@ -58,6 +60,7 @@ static void MX_GPIO_Init(void);
 static void MX_CRC_Init(void);
 static void MX_QUADSPI_Init(void);
 static void MX_UART8_Init(void);
+static void MX_IWDG1_Init(void);
 void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -104,9 +107,8 @@ int main(void)
   MX_CRC_Init();
   MX_QUADSPI_Init();
   MX_UART8_Init();
+  MX_IWDG1_Init();
   /* USER CODE BEGIN 2 */
-  run_interface();
-#if 0
 
   /* USER CODE END 2 */
 
@@ -148,7 +150,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
-#endif
   /* USER CODE END 3 */
 }
 
@@ -174,9 +175,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_CSI|RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_CSI|RCC_OSCILLATORTYPE_HSI
+                              |RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.CSIState = RCC_CSI_ON;
   RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
@@ -232,6 +235,35 @@ static void MX_CRC_Init(void)
   /* USER CODE BEGIN CRC_Init 2 */
 
   /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
+  * @brief IWDG1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_IWDG1_Init(void)
+{
+
+  /* USER CODE BEGIN IWDG1_Init 0 */
+
+  /* USER CODE END IWDG1_Init 0 */
+
+  /* USER CODE BEGIN IWDG1_Init 1 */
+
+  /* USER CODE END IWDG1_Init 1 */
+  hiwdg1.Instance = IWDG1;
+  hiwdg1.Init.Prescaler = IWDG_PRESCALER_64;
+  //hiwdg1.Init.Window = 4095;
+  hiwdg1.Init.Reload = 2499;
+  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN IWDG1_Init 2 */
+
+  /* USER CODE END IWDG1_Init 2 */
 
 }
 
@@ -448,10 +480,14 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	while (1)
+	  {
+		  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
+		    {
+			  __disable_irq();
+			  HAL_NVIC_SystemReset();
+		    }
+	  }
   /* USER CODE END Error_Handler_Debug */
 }
 

@@ -3214,13 +3214,13 @@ __STATIC_INLINE void LL_CLKAM_Disable(uint32_t Periphs)
   *         CKGAENR      AHBCKG          LL_CKGA_Enable\n
   *         CKGAENR      CPUCKG          LL_CKGA_Enable\n
   *         CKGAENR      SDMMCCKG        LL_CKGA_Enable\n
-  *         CKGAENR      MDMACKG         LL_CKGA_Enable\n
-  *         CKGAENR      DMA2DCKG        LL_CKGA_Enable\n
-  *         CKGAENR      LTDCCKG         LL_CKGA_Enable\n
-  *         CKGAENR      GFXMMUMCKG      LL_CKGA_Enable\n
-  *         CKGAENR      AHB12CKG        LL_CKGA_Enable\n
-  *         CKGAENR      AHB34CKG        LL_CKGA_Enable\n
-  *         CKGAENR      FLIFTCKG        LL_CKGA_Enable\n
+  *         CKGAENR      MDMACKG         LL_CKGA_Enable\n 
+  *         CKGAENR      DMA2DCKG        LL_CKGA_Enable\n 
+  *         CKGAENR      LTDCCKG         LL_CKGA_Enable\n 
+  *         CKGAENR      GFXMMUMCKG      LL_CKGA_Enable\n 
+  *         CKGAENR      AHB12CKG        LL_CKGA_Enable\n 
+  *         CKGAENR      AHB34CKG        LL_CKGA_Enable\n 
+  *         CKGAENR      FLIFTCKG        LL_CKGA_Enable\n 
   *         CKGAENR      OCTOSPI2CKG     LL_CKGA_Enable\n
   *         CKGAENR      FMCCKG          LL_CKGA_Enable\n
   *         CKGAENR      OCTOSPI1CKG     LL_CKGA_Enable\n
@@ -3236,19 +3236,19 @@ __STATIC_INLINE void LL_CLKAM_Disable(uint32_t Periphs)
   *         @arg @ref LL_CKGA_PERIPH_AHB
   *         @arg @ref LL_CKGA_PERIPH_CPU
   *         @arg @ref LL_CKGA_PERIPH_SDMMC
-  *         @arg @ref LL_CKGA_PERIPH_MDMA
-  *         @arg @ref LL_CKGA_PERIPH_DMA2D
-  *         @arg @ref LL_CKGA_PERIPH_LTDC
-  *         @arg @ref LL_CKGA_PERIPH_GFXMMUM
-  *         @arg @ref LL_CKGA_PERIPH_AHB12
-  *         @arg @ref LL_CKGA_PERIPH_AHB34
-  *         @arg @ref LL_CKGA_PERIPH_FLIFT
+  *         @arg @ref LL_CKGA_PERIPH_MDMA     
+  *         @arg @ref LL_CKGA_PERIPH_DMA2D   
+  *         @arg @ref LL_CKGA_PERIPH_LTDC   
+  *         @arg @ref LL_CKGA_PERIPH_GFXMMUM  
+  *         @arg @ref LL_CKGA_PERIPH_AHB12 
+  *         @arg @ref LL_CKGA_PERIPH_AHB34 
+  *         @arg @ref LL_CKGA_PERIPH_FLIFT  
   *         @arg @ref LL_CKGA_PERIPH_OCTOSPI2
-  *         @arg @ref LL_CKGA_PERIPH_FMC
+  *         @arg @ref LL_CKGA_PERIPH_FMC 
   *         @arg @ref LL_CKGA_PERIPH_OCTOSPI1
-  *         @arg @ref LL_CKGA_PERIPH_AXIRAM1
+  *         @arg @ref LL_CKGA_PERIPH_AXIRAM1 
   *         @arg @ref LL_CKGA_PERIPH_AXIRAM2
-  *         @arg @ref LL_CKGA_PERIPH_AXIRAM3
+  *         @arg @ref LL_CKGA_PERIPH_AXIRAM3 
   *         @arg @ref LL_CKGA_PERIPH_GFXMMUS
   *         @arg @ref LL_CKGA_PERIPH_ECCRAM
   *         @arg @ref LL_CKGA_PERIPH_EXTI
@@ -3274,13 +3274,13 @@ __STATIC_INLINE void LL_CKGA_Enable(uint32_t Periphs)
   *         CKGAENR      AHBCKG          LL_CKGA_Enable\n
   *         CKGAENR      CPUCKG          LL_CKGA_Enable\n
   *         CKGAENR      SDMMCCKG        LL_CKGA_Enable\n
-  *         CKGAENR      MDMACKG         LL_CKGA_Enable\n
-  *         CKGAENR      DMA2DCKG        LL_CKGA_Enable\n
-  *         CKGAENR      LTDCCKG         LL_CKGA_Enable\n
-  *         CKGAENR      GFXMMUMCKG      LL_CKGA_Enable\n
-  *         CKGAENR      AHB12CKG        LL_CKGA_Enable\n
-  *         CKGAENR      AHB34CKG        LL_CKGA_Enable\n
-  *         CKGAENR      FLIFTCKG        LL_CKGA_Enable\n
+  *         CKGAENR      MDMACKG         LL_CKGA_Enable\n 
+  *         CKGAENR      DMA2DCKG        LL_CKGA_Enable\n 
+  *         CKGAENR      LTDCCKG         LL_CKGA_Enable\n 
+  *         CKGAENR      GFXMMUMCKG      LL_CKGA_Enable\n 
+  *         CKGAENR      AHB12CKG        LL_CKGA_Enable\n 
+  *         CKGAENR      AHB34CKG        LL_CKGA_Enable\n 
+  *         CKGAENR      FLIFTCKG        LL_CKGA_Enable\n 
   *         CKGAENR      OCTOSPI2CKG     LL_CKGA_Enable\n
   *         CKGAENR      FMCCKG          LL_CKGA_Enable\n
   *         CKGAENR      OCTOSPI1CKG     LL_CKGA_Enable\n
@@ -3296,19 +3296,19 @@ __STATIC_INLINE void LL_CKGA_Enable(uint32_t Periphs)
   *         @arg @ref LL_CKGA_PERIPH_AHB
   *         @arg @ref LL_CKGA_PERIPH_CPU
   *         @arg @ref LL_CKGA_PERIPH_SDMMC
-  *         @arg @ref LL_CKGA_PERIPH_MDMA
-  *         @arg @ref LL_CKGA_PERIPH_DMA2D
-  *         @arg @ref LL_CKGA_PERIPH_LTDC
-  *         @arg @ref LL_CKGA_PERIPH_GFXMMUM
-  *         @arg @ref LL_CKGA_PERIPH_AHB12
-  *         @arg @ref LL_CKGA_PERIPH_AHB34
-  *         @arg @ref LL_CKGA_PERIPH_FLIFT
+  *         @arg @ref LL_CKGA_PERIPH_MDMA     
+  *         @arg @ref LL_CKGA_PERIPH_DMA2D   
+  *         @arg @ref LL_CKGA_PERIPH_LTDC   
+  *         @arg @ref LL_CKGA_PERIPH_GFXMMUM  
+  *         @arg @ref LL_CKGA_PERIPH_AHB12 
+  *         @arg @ref LL_CKGA_PERIPH_AHB34 
+  *         @arg @ref LL_CKGA_PERIPH_FLIFT  
   *         @arg @ref LL_CKGA_PERIPH_OCTOSPI2
-  *         @arg @ref LL_CKGA_PERIPH_FMC
+  *         @arg @ref LL_CKGA_PERIPH_FMC 
   *         @arg @ref LL_CKGA_PERIPH_OCTOSPI1
-  *         @arg @ref LL_CKGA_PERIPH_AXIRAM1
+  *         @arg @ref LL_CKGA_PERIPH_AXIRAM1 
   *         @arg @ref LL_CKGA_PERIPH_AXIRAM2
-  *         @arg @ref LL_CKGA_PERIPH_AXIRAM3
+  *         @arg @ref LL_CKGA_PERIPH_AXIRAM3 
   *         @arg @ref LL_CKGA_PERIPH_GFXMMUS
   *         @arg @ref LL_CKGA_PERIPH_ECCRAM
   *         @arg @ref LL_CKGA_PERIPH_EXTI
@@ -6910,3 +6910,5 @@ __STATIC_INLINE void LL_C2_APB4_GRP1_DisableClockSleep(uint32_t Periphs)
 #endif
 
 #endif /* STM32H7xx_LL_BUS_H */
+
+

@@ -1790,3 +1790,4 @@ static uint32_t RCC_GetPCLK4ClockFreq(uint32_t HCLK_Frequency)
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+

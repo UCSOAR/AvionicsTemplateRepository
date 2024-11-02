@@ -865,3 +865,4 @@ uint32_t              HAL_MDMA_GetError(MDMA_HandleTypeDef *hmdma);
 #endif
 
 #endif /* STM32H7xx_HAL_MDMA_H */
+

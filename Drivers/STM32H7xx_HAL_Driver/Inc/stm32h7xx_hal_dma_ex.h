@@ -307,3 +307,4 @@ void HAL_DMAEx_MUX_IRQHandler(DMA_HandleTypeDef *hdma);
 #endif
 
 #endif /* STM32H7xx_HAL_DMA_H */
+
