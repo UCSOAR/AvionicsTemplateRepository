@@ -59,7 +59,7 @@ void ${TaskName}::InitTask()
             (UBaseType_t)${TaskPriorityDefinedInSystemDefines},
             (TaskHandle_t*)&rtTaskHandle);
 
-    SOAR_ASSERT(rtValue == pdPASS, "${TaskName}::InitTask() - xTaskCreate() failed");
+                SOAR_ASSERT(rtValue == pdPASS, "${TaskName}::InitTask() - xTaskCreate() failed");
 }
 
 /**
