@@ -44,6 +44,8 @@
 
 CRC_HandleTypeDef hcrc;
 
+IWDG_HandleTypeDef hiwdg1;
+
 QSPI_HandleTypeDef hqspi;
 
 osThreadId defaultTaskHandle;
@@ -174,9 +176,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_CSI|RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_CSI|RCC_OSCILLATORTYPE_HSI
+                              |RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.CSIState = RCC_CSI_ON;
   RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
@@ -448,10 +452,14 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
   while (1)
-  {
-  }
+    {
+  	  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
+  	    {
+  		  __disable_irq();
+  		  HAL_NVIC_SystemReset();
+  	    }
+    }
   /* USER CODE END Error_Handler_Debug */
 }
 
