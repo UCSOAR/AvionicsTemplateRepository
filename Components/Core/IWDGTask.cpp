@@ -31,6 +31,18 @@ extern IWDG_HandleTypeDef hiwdg1;
 IWDGTask::IWDGTask() : Task(TASK_IWDG_QUEUE_DEPTH_OBJS)
 {
 }
+/**
+ * @brief configuration IWDG
+ */
+void IWDGTask::InitIWDG() {
+    hiwdg1.Instance = IWDG1;
+    hiwdg1.Init.Prescaler = IWDG_PRESCALER_64;
+    hiwdg1.Init.Reload = 2499; // 624
+
+    if (HAL_IWDG_Init(&hiwdg1) != HAL_OK) {
+        Error_Handler();
+    }
+}
 
 /**
  * @brief Creates a task for the FreeRTOS Scheduler
