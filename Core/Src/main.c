@@ -452,14 +452,8 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while (1)
-    {
-  	  if (HAL_IWDG_Init(&hiwdg1) != HAL_OK)
-  	    {
-  		  __disable_irq();
-  		  HAL_NVIC_SystemReset();
-  	    }
-    }
+	__disable_irq();
+	HAL_NVIC_SystemReset();
   /* USER CODE END Error_Handler_Debug */
 }
 
