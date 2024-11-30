@@ -35,6 +35,7 @@ enum GLOBAL_COMMANDS : uint8_t {
   TASK_SPECIFIC_COMMAND,  // Runs a task specific command when given this object
   DATA_COMMAND,  // Data command, used to send data to a task. Target is stored
                  // in taskCommand
+  DATA_BROKER_COMMAND,
 };
 
 /* Cube++ Optional Code Configuration
