@@ -32,6 +32,9 @@ struct IMUData {
   uint32_t accelZ;
 };
 
+/**
+ * @param Temperature. Can be any where from -2147483648 to 2147483647
+ */
 struct ThermocoupleData {
   int32_t temperature;
 };
