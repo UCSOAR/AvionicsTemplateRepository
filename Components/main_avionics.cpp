@@ -10,6 +10,8 @@
 #include "SystemDefines.hpp"
 #include "UARTDriver.hpp"
 #include "CubeTask.hpp"
+#include "PubSubReceive.hpp"
+#include "PubSubSend.hpp"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
@@ -26,16 +28,15 @@ void run_main() {
   // Init Tasks
   CubeTask::Inst().InitTask();
   DebugTask::Inst().InitTask();
+  PubSubReceive::Inst().InitTask();
+  PubSubSend::Inst().InitTask();
 
   // Print System Boot Info : Warning, don't queue more than 10 prints before
   // scheduler starts
   SOAR_PRINT("\n-- CUBE SYSTEM --\n");
-  SOAR_PRINT(
-      "System Reset Reason: [TODO]\n");  // TODO: System reset reason can be
-                                         // implemented via. Flash storage
+  SOAR_PRINT("System Reset Reason: [TODO]\n");  // TODO: System reset reason can be implemented via. Flash storage
   SOAR_PRINT("Current System Free Heap: %d Bytes\n", xPortGetFreeHeapSize());
-  SOAR_PRINT("Lowest Ever Free Heap: %d Bytes\n\n",
-             xPortGetMinimumEverFreeHeapSize());
+  SOAR_PRINT("Lowest Ever Free Heap: %d Bytes\n\n", xPortGetMinimumEverFreeHeapSize());
 
   // Start the Scheduler
   // Guidelines:
