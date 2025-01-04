@@ -1,14 +1,14 @@
 /**
  ********************************************************************************
  * @file    PubSubSend.hpp
- * @author  shiva
+ * @author  Shivam Desai
  * @date    Dec 14, 2024
  * @brief
  ********************************************************************************
  */
 
-#ifndef PUBSUBSEND_HPP_
-#define PUBSUBSEND_HPP_
+#ifndef PUBSUB_SEND_HPP_
+#define PUBSUB_SEND_HPP_
 
 /************************************
  * INCLUDES
@@ -54,4 +54,4 @@ class PubSubSend : public Task {
  * FUNCTION DECLARATIONS
  ************************************/
 
-#endif /* PUBSUBSEND_HPP_ */
+#endif /* PUBSUB_SEND_HPP_ */

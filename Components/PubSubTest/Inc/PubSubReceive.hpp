@@ -1,14 +1,14 @@
 /**
  ********************************************************************************
  * @file    PubSubReceive.hpp
- * @author  shiva
+ * @author  Shivam Desai
  * @date    Dec 14, 2024
  * @brief
  ********************************************************************************
  */
 
-#ifndef PUBSUBRECEIEVE_HPP_
-#define PUBSUBRECEIEVE_HPP_
+#ifndef PUBSUB_RECEIEVE_HPP_
+#define PUBSUB_RECEIEVE_HPP_
 
 /************************************
  * INCLUDES
@@ -55,4 +55,4 @@ class PubSubReceive : public Task {
  * FUNCTION DECLARATIONS
  ************************************/
 
-#endif /* PUBSUBRECEIEVE_HPP_ */
+#endif /* PUBSUB_RECEIEVE_HPP_ */
