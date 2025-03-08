@@ -66,7 +66,7 @@ typedef enum
 /**
   * @}
   */
-
+  
 /** @defgroup SYSCFG_Exported_Constants SYSCFG Exported Constants
   * @{
   */
@@ -1181,3 +1181,5 @@ void HAL_SYSCFG_ADC2ALT_Rout1Config(uint32_t Adc2AltRout1);
 #endif
 
 #endif /* STM32H7xx_HAL_H */
+
+

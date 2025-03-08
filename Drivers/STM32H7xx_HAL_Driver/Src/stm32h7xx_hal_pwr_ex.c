@@ -2151,3 +2151,4 @@ __weak void HAL_PWREx_AVDCallback (void)
 /**
   * @}
   */
+
