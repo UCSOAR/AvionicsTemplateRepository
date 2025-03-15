@@ -67,6 +67,9 @@ void DistributorTask::Run(void* pvParams) {
 
     // Process the command
     if (cm.GetCommand() == DATA_COMMAND) {
+    	// switch command target
+    	// pick a rate distirbutor
+    	// addsample on it
     }
 
     cm.Reset();

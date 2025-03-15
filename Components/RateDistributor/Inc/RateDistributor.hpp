@@ -25,7 +25,6 @@ public:
 	bool Subscribe(Task* subscriber, uint16_t msPerRequest) {
 		SOAR_ASSERT(numRatedSubs < MAX_RATED_SUBSCRIBERS, "Too many subscribers");
 
-
 		ratedsubs[numRatedSubs] = RatedSubscriber{Subscriber(),msPerRequest,&ratedsubs[numRatedSubs],RatedCallback};
 		ratedsubs[numRatedSubs].getSubscriber().Init(subscriber);
 		numRatedSubs++;
@@ -33,8 +32,9 @@ public:
 		return true;
 	}
 
-
-
+	void AddSample(T& sample) {
+		rawsamples[0] = sample; // todo
+	}
 
 private:
 
