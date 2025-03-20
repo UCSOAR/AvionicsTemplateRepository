@@ -33,7 +33,7 @@ template <typename T>
 class RateDistributor {
 public:
 
-	bool Subscribe(Task* subscriber, uint16_t msPerRequest) {
+	bool Subscribe(Queue* subscriber, uint16_t msPerRequest) {
 		SOAR_ASSERT(numRatedSubs < MAX_RATED_SUBSCRIBERS, "Too many subscribers");
 
 		ratedsubs[numRatedSubs] = RatedSubscriber{Subscriber(),msPerRequest,&ratedsubs[numRatedSubs],RatedCallback,sizeof(T),&rawsamples};
