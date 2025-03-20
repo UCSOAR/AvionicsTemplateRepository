@@ -16,6 +16,17 @@
 	void RatedCallback(TimerHandle_t timer) {
 
 		RatedSubscriber* subs = static_cast<RatedSubscriber*>(pvTimerGetTimerID(timer));
+
+        Command brokerData(DATA_BROKER_COMMAND);
+
+        uint8_t* messsageData = reinterpret_cast<uint8_t*>(subs->getDataArray());
+
+        // copy data to command
+        brokerData.CopyDataToCommand(messsageData, subs->getDataSize());
+
+        subs->getSubscriber().getSubscriberQueueHandle()->Send(brokerData);
+
+
 	}
 
 template <typename T>
@@ -25,7 +36,7 @@ public:
 	bool Subscribe(Task* subscriber, uint16_t msPerRequest) {
 		SOAR_ASSERT(numRatedSubs < MAX_RATED_SUBSCRIBERS, "Too many subscribers");
 
-		ratedsubs[numRatedSubs] = RatedSubscriber{Subscriber(),msPerRequest,&ratedsubs[numRatedSubs],RatedCallback};
+		ratedsubs[numRatedSubs] = RatedSubscriber{Subscriber(),msPerRequest,&ratedsubs[numRatedSubs],RatedCallback,sizeof(T),&rawsamples};
 		ratedsubs[numRatedSubs].getSubscriber().Init(subscriber);
 		numRatedSubs++;
 

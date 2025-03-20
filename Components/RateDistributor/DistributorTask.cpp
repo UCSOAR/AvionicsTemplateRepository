@@ -12,6 +12,7 @@
 #include <cstring>
 #include "SensorDataTypes.hpp"
 #include "RateDistributor.hpp"
+#include "DataBrokerMessageTypes.hpp"
 
 #include "stm32h7xx_hal.h"
 
@@ -57,8 +58,11 @@ void DistributorTask::InitTask() {
  */
 void DistributorTask::Run(void* pvParams) {
 
+
 	RateDistributor<IMUData> imudist;
-	imudist.Subscribe(this, 100);
+	imudist.Subscribe(this, 100); // just for testing, no point in doing this
+
+	RateDistributor<ThermocoupleData> thermo;
   while (1) {
     Command cm;
 
@@ -66,10 +70,23 @@ void DistributorTask::Run(void* pvParams) {
     qEvtQueue->ReceiveWait(cm);
 
     // Process the command
-    if (cm.GetCommand() == DATA_COMMAND) {
+    // We have received a sensor task
+    if (cm.GetCommand() == DATA_BROKER_COMMAND) {
     	// switch command target
-    	// pick a rate distirbutor
-    	// addsample on it
+
+    	switch(static_cast<DataBrokerMessageTypes>(cm.GetTaskCommand())) {
+
+    	case DataBrokerMessageTypes::IMU_DATA:
+    		imudist.AddSample(*(IMUData*)(cm.GetDataPointer()));
+    		break;
+
+    	case DataBrokerMessageTypes::THERMOCOUPLE_DATA:
+    		thermo.AddSample(*(ThermocoupleData*)(cm.GetDataPointer()));
+    		break;
+
+    	default:
+    		break;
+    	}
     }
 
     cm.Reset();
