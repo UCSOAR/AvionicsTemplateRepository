@@ -44,7 +44,10 @@ public:
 	}
 
 	void AddSample(T& sample) {
-		rawsamples[0] = sample; // todo
+		SOAR_ASSERT(numSamples < MAX_RAW_SAMPLES,"Too many samples. todo: circular buffer");
+
+		rawsamples[numSamples] = sample;
+		numSamples++;
 	}
 
 private:
@@ -52,6 +55,7 @@ private:
 	RatedSubscriber ratedsubs[MAX_RATED_SUBSCRIBERS];
 	uint16_t numRatedSubs = 0;
 	T rawsamples[MAX_RAW_SAMPLES];
+	uint32_t numSamples;
 
 };
 
