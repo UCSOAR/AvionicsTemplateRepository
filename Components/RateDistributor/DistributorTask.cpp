@@ -13,7 +13,7 @@
 #include "SensorDataTypes.hpp"
 #include "RateDistributor.hpp"
 #include "DataBrokerMessageTypes.hpp"
-
+#include "RateBroker.hpp"
 #include "stm32h7xx_hal.h"
 
 // External Tasks (to send debug commands to)
@@ -63,6 +63,8 @@ void DistributorTask::Run(void* pvParams) {
 	imudist.Subscribe(this, 100); // just for testing, no point in doing this
 
 	RateDistributor<ThermocoupleData> thermo;
+
+
   while (1) {
     Command cm;
 
