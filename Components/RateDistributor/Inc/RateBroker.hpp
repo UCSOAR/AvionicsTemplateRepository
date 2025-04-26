@@ -12,6 +12,14 @@
 
 #define RATEBUFSIZE 300
 
+template <typename T>
+struct SensorDataBuf {
+	T data[RATEBUFSIZE];
+	uint32_t num;
+};
+
+#define big 10
+
 class RateBroker : public DataBroker {
 
 	  /**
@@ -21,46 +29,57 @@ class RateBroker : public DataBroker {
 	   */
 	  template <typename T>
 	  static void Publish(T* dataToPublish) {
-		void* buf = nullptr;
-		uint32_t* num = nullptr;
+		SensorDataBuf<T>* buf = nullptr;
 
 		if(matchType<T,IMUData>) {
 			buf = imubuf;
-			num = &imunum;
 		} else if(matchType<T,ThermocoupleData>) {
-			buf = tcbuf;
-			num = &tcnum;
+			buf = thermbuf;
 		} else {
 			SOAR_ASSERT(false,"that type does NOT exist.......");
 			return;
 		}
 
 
-		static_cast<T*>(buf)[*num] = dataToPublish;
-		*num++;
-		if(*num >= RATEBUFSIZE) { // bad cycle NO!!! TODO!!!!!!!!!!!!
-			*num = 0;
+		(static_cast<T*>(buf->data))[buf->num] = dataToPublish;
+		buf->num++;
+		if(buf->num >= RATEBUFSIZE) { // bad cycle NO!!! TODO!!!!!!!!!!!! CIRCCUCLKARRAE BUFFFFER!!!!!!!!!!!
+			buf->num= 0;
 		}
 	  }
 
 	  template <typename T>
 	  static void Subscribe(Task* taskToSubscribe, uint32_t rate) {
 	    SOAR_PRINT("YEAH!!!!!!!!!!!!!!!!!! RATES!!!!!!!!!!!!!!");
-	    DataBroker::Subscribe<T>(taskToSubscribe);
+	    if(numSubs >= big) {
+	    	return;
+	    }
+	    //DataBroker::Subscribe<T>(taskToSubscribe);
+	    char timername[16];
+	    snprintf(timername,sizeof(timername),"ratetimer%d",numSubs);
+	    TimerHandle_t newTimer = xTimerCreate(timername, rate, true, taskToSubscribe, RateBroker::TimerCallback);
+	    if(newTimer == nullptr) {
+	    	SOAR_PRINT("Could not add new subscriber timer\n");
+	    	return;
+	    }
+
+	    timers[numSubs] = newTimer;
+	    numSubs++;
 
 	  }
 
 
-	  static void TimerCallback() {
-		 SOAR_PRINT("urngle");
+	  static void TimerCallback(TimerHandle_t timer) {
+
 	  }
 
 private:
-	  static IMUData imubuf[RATEBUFSIZE];
-	  static uint32_t imunum;
+	  static TimerHandle_t timers[big];
+	  static uint32_t numSubs;
 
-	  static ThermocoupleData tcbuf[RATEBUFSIZE];
-	  static uint32_t tcnum;
+	  static SensorDataBuf<IMUData> imubuf;
+
+	  static SensorDataBuf<ThermocoupleData> thermbuf;
 };
 
 
