@@ -9,18 +9,28 @@
 #define INC_RATEBROKER_HPP_
 
 #include <DataBroker.hpp>
+#include "RatedSubscriber.hpp"
+#include "RatedBuf.hpp"
 
-#define RATEBUFSIZE 300
 
-template <typename T>
-struct SensorDataBuf {
-	T data[RATEBUFSIZE];
-	uint32_t num;
-};
+
 
 #define big 10
 
 class RateBroker : public DataBroker {
+
+public:
+	template <typename T>
+	static SensorDataBuf<T>* getBufOfType() {
+		if(matchType<T,IMUData>) {
+			return &imubuf;
+		} else if(matchType<T,ThermocoupleData>) {
+			return &thermbuf;
+		} else {
+			SOAR_ASSERT(false,"that type does NOT exist.......");
+			return nullptr;
+		}
+	}
 
 	  /**
 	   * @brief Publish data of a certain type. Note that for a rated broker, this will not
@@ -29,57 +39,64 @@ class RateBroker : public DataBroker {
 	   */
 	  template <typename T>
 	  static void Publish(T* dataToPublish) {
-		SensorDataBuf<T>* buf = nullptr;
-
-		if(matchType<T,IMUData>) {
-			buf = imubuf;
-		} else if(matchType<T,ThermocoupleData>) {
-			buf = thermbuf;
-		} else {
-			SOAR_ASSERT(false,"that type does NOT exist.......");
-			return;
-		}
-
+		SensorDataBuf<T>* buf = getBufOfType<T>();
 
 		(static_cast<T*>(buf->data))[buf->num] = dataToPublish;
-		buf->num++;
-		if(buf->num >= RATEBUFSIZE) { // bad cycle NO!!! TODO!!!!!!!!!!!! CIRCCUCLKARRAE BUFFFFER!!!!!!!!!!!
+
+		if(buf->num >= RATEBUFSIZE-1) { // bad cycle NO!!! TODO!!!!!!!!!!!! CIRCCUCLKARRAE BUFFFFER!!!!!!!!!!!
 			buf->num= 0;
+		} else {
+			buf->num++;
 		}
 	  }
 
 	  template <typename T>
 	  static void Subscribe(Task* taskToSubscribe, uint32_t rate) {
-	    SOAR_PRINT("YEAH!!!!!!!!!!!!!!!!!! RATES!!!!!!!!!!!!!!");
+	    SOAR_PRINT("YEAH!!!!!!!!!!!!!!!!!! RATES!!!!!!!!!!!!!! SUBSCRIBCEE!!!!!!!!!!!!!	");
 	    if(numSubs >= big) {
 	    	return;
 	    }
 	    //DataBroker::Subscribe<T>(taskToSubscribe);
 	    char timername[16];
 	    snprintf(timername,sizeof(timername),"ratetimer%d",numSubs);
-	    TimerHandle_t newTimer = xTimerCreate(timername, rate, true, taskToSubscribe, RateBroker::TimerCallback);
+	    TimerHandle_t newTimer = xTimerCreate(timername, rate, true, &subs[numSubs], RateBroker::TimerCallback<T>);
 	    if(newTimer == nullptr) {
 	    	SOAR_PRINT("Could not add new subscriber timer\n");
 	    	return;
 	    }
 
-	    timers[numSubs] = newTimer;
+	    //timers[numSubs] = newTimer;
+	    SensorDataBuf<T>* buf = getBufOfType<T>();
+	    subs[numSubs] = RatedSubscriber(newTimer, &buf->data,RATEBUFSIZE, buf->getSize(), &buf->num);
 	    numSubs++;
+	    xTimerStart(newTimer,0);
 
 	  }
 
 
-	  static void TimerCallback(TimerHandle_t timer) {
 
-	  }
 
 private:
-	  static TimerHandle_t timers[big];
+	  static RatedSubscriber subs[big];
 	  static uint32_t numSubs;
 
 	  static SensorDataBuf<IMUData> imubuf;
 
 	  static SensorDataBuf<ThermocoupleData> thermbuf;
+
+	  template <typename T>
+	  static void TimerCallback(TimerHandle_t timer) {
+		  RatedSubscriber* thisSub = static_cast<RatedSubscriber*>(pvTimerGetTimerID(timer));
+
+		  //SensorDataBuf buf;
+		  Command dataCmd;
+
+		  // rcurrently sends most recent, TODO: moving average
+		  // also, race condition? what if access while num updating?
+		  dataCmd.CopyDataToCommand(getBufOfType<T>()->getLast(),thisSub->getSizeOfSingleData());
+		  thisSub->getSubscriberQueueHandle()->Send(dataCmd, false);
+	  }
+
 };
 
 
