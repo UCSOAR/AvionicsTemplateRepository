@@ -73,10 +73,12 @@ void DaughterTask::Run(void* pvParams) {
 #endif
   SOAR_PRINT(")\nJoining network...\n");
 
+  while(candau.GetCurrentState() == CanAutoNodeDaughter::UNINITIALIZED || candau.GetCurrentState() == CanAutoNodeDaughter::REQUESTED_FAILED_WAITING_TO_RETRY) {
   if(candau.TryRequestingJoiningNetwork()) {
 	  SOAR_PRINT("successfully joined network!!!!!!!!!!!!!!\n");
   } else {
 	  SOAR_PRINT("FAILED!!!!!!!!!!!\n");
+  }
   }
   while (1) {
     Command cm;
