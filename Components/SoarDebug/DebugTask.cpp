@@ -10,6 +10,7 @@
 #include "Command.hpp"
 #include "CubeUtils.hpp"
 #include <cstring>
+#include "CubeDefines.hpp"
 
 #include "stm32h7xx_hal.h"
 

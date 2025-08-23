@@ -1374,7 +1374,7 @@ static void FLASH_OB_RDPConfig(uint32_t RDPLevel)
 static uint32_t FLASH_OB_GetRDP(void)
 {
   uint32_t rdp_level = READ_BIT(FLASH->OPTSR_CUR, FLASH_OPTSR_RDP);
-
+  
   if ((rdp_level != OB_RDP_LEVEL_0) && (rdp_level != OB_RDP_LEVEL_2))
   {
     return (OB_RDP_LEVEL_1);
@@ -2112,3 +2112,4 @@ static uint32_t FLASH_OB_CPUFreq_GetBoost(void)
 /**
   * @}
   */
+

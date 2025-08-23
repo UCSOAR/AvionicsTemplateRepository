@@ -1330,3 +1330,4 @@ uint32_t             HAL_DMA_GetError(DMA_HandleTypeDef *hdma);
 #endif
 
 #endif /* STM32H7xx_HAL_DMA_H */
+

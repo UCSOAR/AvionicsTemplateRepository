@@ -440,7 +440,7 @@ __STATIC_INLINE void LL_EXTI_EnableIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_86 (*)
   *         @arg @ref LL_EXTI_LINE_87
   *         @arg @ref LL_EXTI_LINE_88 (*)
-  *         @arg @ref LL_EXTI_LINE_89 (*)
+  *         @arg @ref LL_EXTI_LINE_89 (*) 
   *         @arg @ref LL_EXTI_LINE_90 (*)
   *         @arg @ref LL_EXTI_LINE_91 (*)
   *         @arg @ref LL_EXTI_LINE_ALL_64_95
@@ -572,7 +572,7 @@ __STATIC_INLINE void LL_EXTI_DisableIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_86 (*)
   *         @arg @ref LL_EXTI_LINE_87
   *         @arg @ref LL_EXTI_LINE_88 (*)
-  *         @arg @ref LL_EXTI_LINE_89 (*)
+  *         @arg @ref LL_EXTI_LINE_89 (*) 
   *         @arg @ref LL_EXTI_LINE_90 (*)
   *         @arg @ref LL_EXTI_LINE_91 (*)
   *         @arg @ref LL_EXTI_LINE_ALL_64_95
@@ -705,7 +705,7 @@ __STATIC_INLINE uint32_t LL_EXTI_IsEnabledIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_86 (*)
   *         @arg @ref LL_EXTI_LINE_87
   *         @arg @ref LL_EXTI_LINE_88 (*)
-  *         @arg @ref LL_EXTI_LINE_89 (*)
+  *         @arg @ref LL_EXTI_LINE_89 (*) 
   *         @arg @ref LL_EXTI_LINE_90 (*)
   *         @arg @ref LL_EXTI_LINE_91 (*)
   *         @arg @ref LL_EXTI_LINE_ALL_64_95
@@ -3282,3 +3282,4 @@ void LL_EXTI_StructInit(LL_EXTI_InitTypeDef *EXTI_InitStruct);
 #endif
 
 #endif /* __STM32H7xx_LL_EXTI_H */
+

@@ -1,6 +1,7 @@
 [submodule "SoarOS"]
 	path = SoarOS
 	url = https://github.com/UCSOAR/SoarOperatingSystem.git
+	branch = Shivam/SOARIntegration
 [submodule "SoarDrivers"]
 	path = SoarDrivers
 	url = https://github.com/UCSOAR/PeripheralDriversSubmodule.git
@@ -10,3 +11,11 @@
 [submodule "SoarCommunications"]
 	path = SoarCommunications
 	url = https://github.com/UCSOAR/CommunicationSystemsSubmodule.git
+[submodule "CanAutoNode"]
+	path = CanAutoNode
+	url = https://github.com/UCSOAR/PeripheralDriversSubmodule.git
+	branch = adamg/canautonode
+[submodule "FDCAN"]
+	path = FDCAN
+	url = https://github.com/UCSOAR/PeripheralDriversSubmodule.git
+	branch = adamg/fdcan
