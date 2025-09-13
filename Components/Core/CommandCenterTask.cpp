@@ -16,7 +16,7 @@
 /************************************
  * INCLUDES
  ************************************/
- #include "${CommandCenterTask}"
+ #include "{CommandCenterTask}"
  #include "SystemDefines.hpp"
  
  /************************************
@@ -105,21 +105,26 @@
  }
 
  void CommandCenterTask::ExecuteCommand(const char* msg)
+
      //discover daughterboards while the task is running
      activeBoards = BoardManager::DiscoverActiveBoards();
 
-     //Loop through boards
-     for (auto& board : activeBoards) {
-         board.SendCommand(START_LOGGING);   //sends a can message
-         if (!board.WaitForAck()) {
-             SOAR_PRINT("Board %d did not respond\n", board.GetID());
-         }
-     }
+    //-- SYSTEM / CHAR COMMANDS -- (Must be last)
+    if (strcmp(msg, "start") == 0) {
+
+        //Loop through boards
+        for (auto& board : activeBoards) {
+            board.SendCommand(START_LOGGING);   //sends a can message
+            if (!board.WaitForAck()) {
+                SOAR_PRINT("Board %d did not respond\n", board.GetID());
+            }
+        }
+        
      //checking state of daughter boards and looping back
      bool ContinueLogging = true;
      while (ContinueLogging) {
          for (auto& board :: activeBoards) {
-             board.SendCommand(CHECK_STATE);
+             board.SendCommand(START_LOGGING);
              if (!board.WaitForAck()) {
                  SOAR_PRINT("Board %d did not respind to state check\n", board.GetID());
              } else {
@@ -128,9 +133,7 @@
          }
          vTaskDelay(pdMS_TO_TICKS(1000)); //wait 1 second between the next check
      }
- 
- 
- 
+    }
      //stops logging anf sends files
      for (auto& board : activeBoards) {
          board.SendCommand(STOP_LOGGING);
@@ -138,25 +141,19 @@
              SOAR_PRINT("Board %d did not respond to STOP_Logging\n", board.GetID());
          }
      }
+    else if (strcmp(msg, "end") == 0) {
  
-     //currently only reciving files
-     for (auto& board : activeBoards) {
-         board.SendCommand(SEND_FILES);
-         if (!board.waitForAck()) {
-             SOAR_PRINT("Board %d failed to send files\n", board.GetID());
-         } else {
-             FileSystem: :ReceiveFilesFromBoard(board.GetID()); //pulls the files from the board into system
-             }
-         }
- //request and retrieve log files from each active daughter board
-     for (auto& board : activeBoards) {
-         board.SendCommand(SEND_FILES);
-         if (!board.WaitForAck()) {
-             SOAR_PRINT("Board %d failed to send files\n", board.GetID());
-         } else {
-             //receives file into local fs
- 
-             }
-         }
-     }
+        //currently only reciving files
+        for (auto& board : activeBoards) {
+            board.SendCommand(SEND_FILES);
+            if (!board.waitForAck()) {
+                SOAR_PRINT("Board %d failed to send files\n", board.GetID());
+            } else {
+                FileSystem: :ReceiveFilesFromBoard(board.GetID()); //pulls the files from the board into system
+                }
+            }
+
+
+            }
+
      
