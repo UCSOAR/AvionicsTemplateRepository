@@ -16,7 +16,7 @@
 /************************************
  * INCLUDES
  ************************************/
- #include "{CommandCenterTask}"
+ #include "CommandCenterTask.hpp"
  #include "SystemDefines.hpp"
  
  /************************************
@@ -37,31 +37,31 @@
   ************************************/
  
  /**
-  * @brief Constructor for ${CommandCenterTask}
+  * @brief Constructor for CommandCenterTask
   */
- ${CommandCenterTask}::${CommandCenterTask}() : Task(${TaskQueueDepthDefinedInSystemDefines})
+ CommandCenterTask::CommandCenterTask() : Task(constexpr uint8_t TASK_COMMANDCENTER_QUEUE_DEPTH_OBJS =)
  {
     activeBoards = BoardManager::DiscoverActiveBoards();
  }
  
  /**
-  * @brief Initialize the ${CommandCenterTask}
+  * @brief Initialize the CommandCenterTask
   *        Do not modify this function aside from adding the task name
   */
- void ${CommandCenterTask}::InitTask()
+ void CommandCenterTask::InitTask()
  {
      // Make sure the task is not already initialized
      SOAR_ASSERT(rtTaskHandle == nullptr, "Cannot initialize watchdog task twice");
  
      BaseType_t rtValue =
-         xTaskCreate((TaskFunction_t)${CommandCenterTask}::RunTask,
-             (const char*)"${CommandCenterTask}",
-             (uint16_t)${TaskStackDepthDefinedInSystemDefines},
+         xTaskCreate((TaskFunction_t)CommandCenterTask::RunTask,
+             (const char*)"CommandCenterTask",
+             (uint16_t)constexpr uint16_t TASK_COMMANDCENTER_STACK_DEPTH_WORDS =,
              (void*)this,
-             (UBaseType_t)${TaskPriorityDefinedInSystemDefines},
+             (UBaseType_t)constexpr uint8_t TASK_COMMANDCENTER_PRIORITY = 2;,
              (TaskHandle_t*)&rtTaskHandle);
  
-                 SOAR_ASSERT(rtValue == pdPASS, "${CommandCenterTask}::InitTask() - xTaskCreate() failed");
+                 SOAR_ASSERT(rtValue == pdPASS, "CommandCenterTask::InitTask() - xTaskCreate() failed");
  }
  
  /**
@@ -96,7 +96,7 @@
     }
 
      default:
-         SOAR_PRINT("${CommandCenterTask} - Received Unsupported Command {%d}\n", cm.GetCommand());
+         SOAR_PRINT("CommandCenterTask - Received Unsupported Command {%d}\n", cm.GetCommand());
          break;
      }
  

@@ -13,8 +13,8 @@
  ********************************************************************************
  */
 
- #ifndef ${include_guard_symbol}
- #define ${include_guard_symbol}
+ #ifndef CCENTER_TASK_HPP_
+ #define CCENTER_TASK_HPP_
  
  /************************************
   * INCLUDES
@@ -33,26 +33,26 @@
  /************************************
   * CLASS DEFINITIONS
   ************************************/
- class ${CommandCenterTask} : public Task
+ class CommandCenterTask : public Task
  {
  public:
-     static ${CommandCenterTask}& Inst() {
-         static ${CommandCenterTask} inst;
+     static CommandCenterTask& Inst() {
+         static CommandCenterTask inst;
          return inst;
      }
  
      void InitTask();
  
  protected:
-     static void RunTask(void* pvParams) { ${CommandCenterTask}::Inst().Run(pvParams); } // Static Task Interface, passes control to the instance Run();
+     static void RunTask(void* pvParams) { CommandCenterTask::Inst().Run(pvParams); } // Static Task Interface, passes control to the instance Run();
      void Run(void * pvParams); // Main run code
      void HandleCommand(Command& cm);
  
  private:
      // Private Functions
-     ${CommandCenterTask}();        // Private constructor
-     ${CommandCenterTask}(const ${CommandCenterTask}&);                        // Prevent copy-construction
-     ${CommandCenterTask}& operator=(const ${CommandCenterTask}&);            // Prevent assignment
+     CommandCenterTask();        // Private constructor
+     CommandCenterTask(const CommandCenterTask&);                        // Prevent copy-construction
+     CommandCenterTask& operator=(const CommandCenterTask&);            // Prevent assignment
      std::vector<DaughterBoard> activeBoards;                                //list of all active daughterboards
  };
  
