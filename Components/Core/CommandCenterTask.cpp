@@ -106,54 +106,109 @@
 
  void CommandCenterTask::ExecuteCommand(const char* msg)
 
-     //discover daughterboards while the task is running
-     activeBoards = BoardManager::DiscoverActiveBoards();
+    //discover daughterboards while the task is running
+    activeBoards = BoardManager::DiscoverActiveBoards();
 
-    //-- SYSTEM / CHAR COMMANDS -- (Must be last)
-    if (strcmp(msg, "start") == 0) {
+    //parse string to check if there is a start or an end
+    std::string command(msg);
+
+    if (command.find("start") == 0)
+    //find which daughterboards are chosen
+        std::vector<int> daughterBoards;
+
+            //if all appears all boards get put through commands
+        if (command.find("all") != std::string::npos) {
+            for (auto& board : activeBoards) {
+                daughterBoards.push_back(board.GetID())
+            }
+        } else {
+            //if d2, d3 etc gets typed in the commands get sent for those boards
+            for (size_t i = 0; i < activeBoards.size(); i++) {
+                std::string boardName = "d" + std::to_string(i + 1);
+                if (command.find(boardName) != std::string::npos) {
+                    daughterboards.push_back(activeBoards[i].GetID());
+                }
+            }
+                }
+        //if not d1, d2, d3 etc it goes to all boards
+        if (daughterBoards.empty()) {
+            for (auto& board : activeBoards) {
+                daaughterBoards.push_back(board.GetID());
+            }
+        }
 
         //Loop through boards
         for (auto& board : activeBoards) {
-            board.SendCommand(START_LOGGING);   //sends a can message
-            if (!board.WaitForAck()) {
-                SOAR_PRINT("Board %d did not respond\n", board.GetID());
+            if (std::find(daughterboards.begin(), daughterboards.end(), boards.GetID())) != daughterboards.end() {
+                board.SendCommand(START_LOGGING);   //sends a can message
+                if (!board.WaitForAck()) {
+                    SOAR_PRINT("Board %d did not respond\n", board.GetID());
+                }
             }
         }
         
-     //checking state of daughter boards and looping back
-     bool ContinueLogging = true;
-     while (ContinueLogging) {
-         for (auto& board :: activeBoards) {
-             board.SendCommand(START_LOGGING);
-             if (!board.WaitForAck()) {
-                 SOAR_PRINT("Board %d did not respind to state check\n", board.GetID());
-             } else {
- 
-             }
-         }
-         vTaskDelay(pdMS_TO_TICKS(1000)); //wait 1 second between the next check
-     }
-    }
-     //stops logging anf sends files
-     for (auto& board : activeBoards) {
-         board.SendCommand(STOP_LOGGING);
-         if (!board.waitForAck()) {
-             SOAR_PRINT("Board %d did not respond to STOP_Logging\n", board.GetID());
-         }
-     }
-    else if (strcmp(msg, "end") == 0) {
- 
-        //currently only reciving files
-        for (auto& board : activeBoards) {
-            board.SendCommand(SEND_FILES);
-            if (!board.waitForAck()) {
-                SOAR_PRINT("Board %d failed to send files\n", board.GetID());
-            } else {
-                FileSystem: :ReceiveFilesFromBoard(board.GetID()); //pulls the files from the board into system
+        //checking state of daughter boards and looping back
+        bool ContinueLogging = true;
+        while (ContinueLogging) {
+            for (auto& board :: activeBoards) {
+                if (std::find(daughterboards.begin(), daughterboards.end(), board.GetID()) != daughterboards.end()) {
+                    board.SendCommand(START_LOGGING);
+                    if (!board.WaitForAck()) {
+                        SOAR_PRINT("Board %d did not respind to state check\n", board.GetID());
+                    } else {
+
                 }
             }
+        }
+            vTaskDelay(pdMS_TO_TICKS(1000)); //wait 1 second between the next check
+        }
+        
+        else if (strcmp(msg, "end") == 0) {
+            std::vector<int> daughterBoards;
 
-
+        if (command.find("all") != std::string::npos) {
+            for (auto& board : activeBoards) {
+                daughterBoards.push_back(board.GetID());
             }
+        } else {
+            //
+            for (size_t i = 0; i < activeBoards.size(); i++) {
+                std::string boardName = "d" + std::to_string(i + 1);
+                if (command.find(boardName) != std::string::npos) {
+                    daughterBoards.push_back(activeBoards[i].GetID())
+                }
+            }
+        }
 
-     
+        //if not d1, d2, d3 etc it goes to all boards
+        if (daughterBoards.empty()) {
+            for (auto& board : activeBoards) {
+                daughterBoards.push_back(board.GetID());
+            }
+        }
+
+
+        //stops logging and sends files
+        for (auto& board : activeBoards) {
+            if (std::find(daughterboards.begin(), daughterboards.end(), board.GetID()) != daughterboards.end()) {
+                board.SendCommand(STOP_LOGGING);
+                if (!board.waitForAck()) {
+                    SOAR_PRINT("Board %d did not respond to STOP_Logging\n", board.GetID());
+                }
+            }
+        }
+
+
+
+        //recives files
+        for (auto& board : activeBoards) {
+            if (std::find(daughterboards.begin(), daughterboards.end(), board.GetID()) != daughterboards.end()) {
+                board.SendCommand(SEND_FILES);
+                if (!board.waitForAck()) {
+                    SOAR_PRINT("Board %d failed to send files\n", board.GetID());
+                } else {
+                    FileSystem: :ReceiveFilesFromBoard(board.GetID()); //pulls the files from the board into system
+                    }
+                }
+            }
+        }
