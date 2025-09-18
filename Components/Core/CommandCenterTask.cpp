@@ -116,7 +116,7 @@
     //find which daughterboards are chosen
         std::vector<int> daughterBoards;
 
-            //if all appears all boards get put through commands
+        //if all appears all boards get put through commands
         if (command.find("all") != std::string::npos) {
             for (auto& board : activeBoards) {
                 daughterBoards.push_back(board.GetID())
@@ -129,12 +129,11 @@
                     daughterboards.push_back(activeBoards[i].GetID());
                 }
             }
-                }
-        //if not d1, d2, d3 etc it goes to all boards
+        }
+        //if not d1, d2, d3 etc it goes to error
         if (daughterBoards.empty()) {
-            for (auto& board : activeBoards) {
-                daaughterBoards.push_back(board.GetID());
-            }
+            SOAR_PRINT("Error: enter all boards, d1, d2, etc\n");
+            return;
         }
 
         //Loop through boards
@@ -180,10 +179,10 @@
             }
         }
 
-        //if not d1, d2, d3 etc it goes to all boards
+        //if not d1, d2, d3 etc it goes to error
         if (daughterBoards.empty()) {
-            for (auto& board : activeBoards) {
-                daughterBoards.push_back(board.GetID());
+            SOAR_PRINT("Error: enter all boards, d1, d2, etc\n");
+            return;
             }
         }
 
@@ -211,4 +210,4 @@
                     }
                 }
             }
-        }
+        
