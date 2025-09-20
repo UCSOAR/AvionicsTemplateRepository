@@ -21,6 +21,7 @@
 #include "Command.hpp"
 #include "stm32h7xx_hal.h"
 #include "DataBroker.hpp"
+#include "DataBrokerMessageTypes.hpp"
 
 /************************************
  * PRIVATE MACROS AND DEFINES
@@ -41,7 +42,7 @@
  * @brief Constructor for LoggingTask
  */
 LoggingTask::LoggingTask()
-: Task(${TaskQueueDepthDefinedInSystemDefines})
+: Task(LOGGING_TASK_DEPTH_OBJS)
 {
 
 }
@@ -58,9 +59,9 @@ void LoggingTask::InitTask()
     BaseType_t rtValue =
         xTaskCreate((TaskFunction_t)LoggingTask::RunTask,
             (const char*)"LoggingTask",
-            (uint16_t)${TaskStackDepthDefinedInSystemDefines},
+            (uint16_t)LOGGING_TASK_DEPTH_WORDS,
             (void*)this,
-            (UBaseType_t)${TaskPriorityDefinedInSystemDefines},
+            (UBaseType_t)LOGGING_TASK_PRIORITY,
             (TaskHandle_t*)&rtTaskHandle);
 
                 SOAR_ASSERT(rtValue == pdPASS, "LoggingTask::InitTask() - xTaskCreate() failed");
@@ -75,7 +76,6 @@ void LoggingTask::Run(void * pvParams)
 	DataBroker::Subscribe<IMUData>(this->qEvtQueue);
 	DataBroker::Subscribe<PressureData>(this->qEvtQueue);
 	DataBroker::Subscribe<ThermocoupleData>(this->qEvtQueue);
-
 
     while (1) {
         /* Process commands in blocking mode */
@@ -99,7 +99,6 @@ void LoggingTask::HandleCommand(Command& cm)
           HandleDataBrokerCommand(cm);
           break;
 
-
     default:
         SOAR_PRINT("LoggingTask - Received Unsupported Command {%d}\n", cm.GetCommand());
         break;
@@ -110,5 +109,33 @@ void LoggingTask::HandleCommand(Command& cm)
 }
 
 bool LoggingTask::HandleDataBrokerCommand(Command& cm){
-	// put data into buffer
+
+	DataBrokerMessageTypes messageType = DataBroker::getMessageType(cm);
+
+	switch (messageType){
+
+	case DataBrokerMessageTypes::IMU_DATA:
+		IMUData imu_data = DataBroker::ExtractData<IMUData>(cm);
+
+
+		//access IMU data, then write data to a file in the fs
+		//Use FreeRTOS FATFS wrapper
+		break;
+	case DataBrokerMessageTypes::PRESSURE_DATA:
+		PressureData pressure_data = DataBroker::ExtractData<PressureData>(cm);
+		//access PressureData data, then write data to a file in the fs
+		//Use FreeRTOS FATFS wrapper
+
+		break;
+	case DataBrokerMessageTypes::THERMOCOUPLE_DATA:
+		ThermocoupleData thermocouple_data = DataBroker::ExtractData<ThermocoupleData>(cm);
+
+		//access Thermocouple data, then write data to a file in the fs
+		//Use FreeRTOS FATFS wrapper
+
+		break;
+
+	}
+
+
 }

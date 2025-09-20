@@ -47,13 +47,14 @@ class LoggingTask : public Task
 		static void RunTask(void* pvParams) { LoggingTask::Inst().Run(pvParams); } // Static Task Interface, passes control to the instance Run();
 		void Run(void * pvParams); // Main run code
 		void HandleCommand(Command& cm);
-		bool LoggingTask::HandleDataBrokerCommand(Command& cm);
-		uint8_t debugBuffer[LOGGING_RX_BUFFER_SZ_BYTES + 1];
+		void WriteData();//put argue
+		bool HandleDataBrokerCommand(Command& cm);
 
 	private:
 		// Private Functions
 		LoggingTask();        // Private constructor
-		LoggingTask(const LoggingTask&);                        // Prevent copy-construction
-		LoggingTask& operator=(const LoggingTask&);														// Prevent assignment
+		LoggingTask(const LoggingTask&);          // Prevent copy-construction
+		LoggingTask& operator=(const LoggingTask&);		// Prevent assignment
+};
 
 #endif /* CORE_INC_LOGGING_TASK_M_HPP_ */

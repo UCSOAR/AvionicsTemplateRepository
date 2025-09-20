@@ -70,18 +70,18 @@ void FSBProtocolTask::HandleCommand(Data test){
 		break;
 
 	case IMU_DATA:
-		IMUData testing;
-		testing.accelX = 5;
-		testing.accelY = 10;
-		testing.accelZ = 15;
-		DataBroker::Publish<IMUData>(&testing);
+		IMUData imu;
+		imu.accelX = 5;
+		imu.accelY = 10;
+		imu.accelZ = 15;
+		DataBroker::Publish<IMUData>(&imu);
 		break;
 
 
 	case THERMOCOUPLE_DATA:
-		ThermocoupleData testing;
-		testing.temperature = 100;
-		DataBroker::Publish<ThermocoupleData>(&testing);
+		ThermocoupleData temp;
+		temp.temperature = 100;
+		DataBroker::Publish<ThermocoupleData>(&temp);
 		break;
 	}
 

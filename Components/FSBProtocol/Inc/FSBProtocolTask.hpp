@@ -53,5 +53,5 @@ class FSBProtocolTask: public Task
 		FSBProtocolTask();        // Private constructor
 		FSBProtocolTask(const FSBProtocolTask&);                        // Prevent copy-construction
 		FSBProtocolTask& operator=(const FSBProtocolTask&);														// Prevent assignment
-
+};
 #endif /* FSBPROTOCOL_INC_FSBPROTOCOLTASK_HPP_ */
