@@ -8,29 +8,29 @@
 #ifndef INC_RATEBROKER_HPP_
 #define INC_RATEBROKER_HPP_
 
-#include <DataBroker.hpp>
+#include "DataBroker.hpp"
 #include "RatedSubscriber.hpp"
 #include "RatedBuf.hpp"
 
+#define big 16
 
-
-
-#define big 10
 
 class RateBroker : public DataBroker {
 
 public:
 	template <typename T>
-	static SensorDataBuf<T>* getBufOfType() {
-		if(matchType<T,IMUData>) {
+	static SensorDataBufBase* getBufOfType() {
+		if(std::is_same<T,IMUData>()) {
 			return &imubuf;
-		} else if(matchType<T,ThermocoupleData>) {
+		} else if(std::is_same<T,ThermocoupleData>()) {
 			return &thermbuf;
 		} else {
 			SOAR_ASSERT(false,"that type does NOT exist.......");
 			return nullptr;
 		}
 	}
+
+
 
 	  /**
 	   * @brief Publish data of a certain type. Note that for a rated broker, this will not
@@ -39,15 +39,17 @@ public:
 	   */
 	  template <typename T>
 	  static void Publish(T* dataToPublish) {
-		SensorDataBuf<T>* buf = getBufOfType<T>();
+		//SensorDataBuf<T>* buf = getBufOfType<T>();
 
-		(static_cast<T*>(buf->data))[buf->num] = dataToPublish;
 
-		if(buf->num >= RATEBUFSIZE-1) { // bad cycle NO!!! TODO!!!!!!!!!!!! CIRCCUCLKARRAE BUFFFFER!!!!!!!!!!!
-			buf->num= 0;
-		} else {
-			buf->num++;
-		}
+		//(static_cast<T*>(buf->data))[buf->num] = dataToPublish;
+		static_cast<SensorDataBuf<T>*>(getBufOfType<T>())->addElement(dataToPublish);
+
+//		if(buf->num >= RATEBUFSIZE-1) { // bad cycle NO!!! TODO!!!!!!!!!!!! CIRCCUCLKARRAE BUFFFFER!!!!!!!!!!!
+//			buf->num= 0;
+//		} else {
+//			buf->num++;
+//		}
 	  }
 
 	  template <typename T>
@@ -93,11 +95,9 @@ private:
 
 		  // rcurrently sends most recent, TODO: moving average
 		  // also, race condition? what if access while num updating?
-		  dataCmd.CopyDataToCommand(getBufOfType<T>()->getLast(),thisSub->getSizeOfSingleData());
+		  dataCmd.CopyDataToCommand(getBufOfType<T>()->getLast(),sizeof(T));
 		  thisSub->getSubscriberQueueHandle()->Send(dataCmd, false);
 	  }
-
 };
-
 
 #endif /* INC_RATEBROKER_HPP_ */

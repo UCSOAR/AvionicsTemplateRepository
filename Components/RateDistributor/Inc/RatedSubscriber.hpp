@@ -17,23 +17,14 @@ public:
 
 
 
-	RatedSubscriber(TimerHandle_t timer, uint8_t* buf, uint8_t sizeOfSingleData) : timer(timer), buf(buf), sizeOfSingleData(sizeOfSingleData){
+	RatedSubscriber(TimerHandle_t timer) : timer(timer){
 
 	}
 
-	const uint8_t* getBuf() const {
-		return buf;
-	}
-
-	uint8_t getSizeOfSingleData() const {
-		return sizeOfSingleData;
-	}
 
 private:
 
 	TimerHandle_t timer = nullptr;
-	const uint8_t* buf = nullptr;
-	const uint8_t sizeOfSingleData = 0;
 
 
 };

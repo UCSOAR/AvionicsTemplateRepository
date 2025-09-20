@@ -12,6 +12,7 @@
 #include "CubeTask.hpp"
 #include "PubSubReceive.hpp"
 #include "PubSubSend.hpp"
+#include "RateBroker.hpp"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
@@ -49,6 +50,9 @@ void run_main() {
 
   while (1) {
     osDelay(100);
-    HAL_NVIC_SystemReset();
+    //HAL_NVIC_SystemReset();
+
+    IMUData test;
+    RateBroker::Publish<IMUData>(&test);
   }
 }

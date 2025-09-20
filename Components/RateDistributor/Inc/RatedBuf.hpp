@@ -11,9 +11,16 @@
 #define RATEBUFSIZE 300
 
 
+struct SensorDataBufBase {
+
+};
+
 template <typename T>
-struct SensorDataBuf {
-	uint32_t num;
+struct SensorDataBuf : public SensorDataBufBase {
+	// the number of elements from the beginning that are defined
+	uint32_t validUntil = 0;
+	// mostRecent should always be <= validUntil
+	uint32_t mostRecent = 0;
 	T data[RATEBUFSIZE];
 
 
@@ -26,11 +33,27 @@ struct SensorDataBuf {
 	}
 
 	T getLast() const {
-		if(num == 0) {
+		if(validUntil == 0) {
 			return T();
 		}
-		return data[num-1];
+		return data[mostRecent];
 	}
+
+	// not thread safe :)
+	void addElement(const T* element) {
+		if(mostRecent >= RATEBUFSIZE-1) {
+			mostRecent = 0;
+		} else {
+			mostRecent++;
+			if(validUntil < RATEBUFSIZE) {
+				validUntil++;
+			}
+		}
+		data[mostRecent] = *element;
+
+	}
+
+
 };
 
 
