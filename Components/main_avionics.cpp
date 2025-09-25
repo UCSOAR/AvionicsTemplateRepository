@@ -13,6 +13,8 @@
 #include "PubSubReceive.hpp"
 #include "PubSubSend.hpp"
 #include "RateBroker.hpp"
+#include "FakeThermoTask.hpp"
+#include "ThermoSubscriberTask.hpp"
 
 /* Drivers ------------------------------------------------------------------*/
 namespace Driver {
@@ -31,6 +33,8 @@ void run_main() {
   DebugTask::Inst().InitTask();
   PubSubReceive::Inst().InitTask();
   PubSubSend::Inst().InitTask();
+  FakeThermoTask::Inst().InitTask();
+  ThermoSubscriberTask::Inst().InitTask();
 
   // Print System Boot Info : Warning, don't queue more than 10 prints before
   // scheduler starts

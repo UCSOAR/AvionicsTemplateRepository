@@ -17,6 +17,9 @@ public:
 
 
 
+	RatedSubscriber() {
+
+	}
 	RatedSubscriber(TimerHandle_t timer) : timer(timer){
 
 	}
