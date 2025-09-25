@@ -1,3 +1,4 @@
+
 /*
  * RateBroker.hpp
  *
@@ -60,7 +61,7 @@ public:
 	    }
 	    //DataBroker::Subscribe<T>(taskToSubscribe);
 	    char timername[16];
-	    snprintf(timername,sizeof(timername),"ratetimer%d",numSubs);
+	    snprintf(timername,sizeof(timername),"ratetimer%lu",numSubs);
 	    TimerHandle_t newTimer = xTimerCreate(timername, rate, true, &subs[numSubs], RateBroker::TimerCallback<T>);
 	    if(newTimer == nullptr) {
 	    	SOAR_PRINT("Could not add new subscriber timer\n");
@@ -68,8 +69,8 @@ public:
 	    }
 
 	    //timers[numSubs] = newTimer;
-	    SensorDataBuf<T>* buf = getBufOfType<T>();
-	    subs[numSubs] = RatedSubscriber(newTimer, &buf->data,RATEBUFSIZE, buf->getSize(), &buf->num);
+	    //SensorDataBuf<T>* buf = reinterpret_cast<SensorDataBuf<T>*>(getBufOfType<T>());
+	    subs[numSubs] = RatedSubscriber(newTimer);
 	    numSubs++;
 	    xTimerStart(newTimer,0);
 
@@ -95,7 +96,8 @@ private:
 
 		  // rcurrently sends most recent, TODO: moving average
 		  // also, race condition? what if access while num updating?
-		  dataCmd.CopyDataToCommand(getBufOfType<T>()->getLast(),sizeof(T));
+		  T last = reinterpret_cast<SensorDataBuf<T>*>(getBufOfType<T>())->getLast();
+		  dataCmd.CopyDataToCommand((uint8_t*)&last,sizeof(T));
 		  thisSub->getSubscriberQueueHandle()->Send(dataCmd, false);
 	  }
 };

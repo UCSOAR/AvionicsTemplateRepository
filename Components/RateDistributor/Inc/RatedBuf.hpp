@@ -5,6 +5,8 @@
  *      Author: Local user
  */
 
+#include "Mutex.hpp"
+
 #ifndef RATEDBUF_HPP_
 #define RATEDBUF_HPP_
 
@@ -29,32 +31,41 @@ struct SensorDataBuf : public SensorDataBufBase {
 	}
 
 	T getAt(uint32_t index) const {
+
 		return data[index];
 	}
 
 	T getLast() const {
+
 		if(validUntil == 0) {
 			return T();
 		}
 		return data[mostRecent];
+
 	}
 
 	// not thread safe :)
 	void addElement(const T* element) {
-		if(mostRecent >= RATEBUFSIZE-1) {
-			mostRecent = 0;
-		} else {
-			mostRecent++;
-			if(validUntil < RATEBUFSIZE) {
-				validUntil++;
-			}
+
+		buffer_lock.Lock();
+
+
+		mostRecent++;
+		mostRecent %= RATEBUFSIZE;
+		if(validUntil < RATEBUFSIZE) {
+			validUntil++;
 		}
+
 		data[mostRecent] = *element;
 
+		buffer_lock.Unlock();
 	}
+private:
 
+	Mutex buffer_lock = Mutex();
 
 };
+
 
 
 
