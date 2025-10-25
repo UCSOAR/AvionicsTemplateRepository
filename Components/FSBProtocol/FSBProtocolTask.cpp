@@ -13,9 +13,14 @@
 #include "FSBProtocolTask.hpp"
 #include "SystemDefines.hpp"
 #include "Command.hpp"
-#include "stm32h7xx_hal.h"
+
 #include "DataBroker.hpp"
 #include "Task.hpp"
+/*
+#include "WriteBufferFixedSize.h"
+#include "ReadBufferFixedSize.h"
+#include "cobs.h"
+*/
 /************************************
  * PRIVATE MACROS AND DEFINES
  ************************************/
@@ -33,7 +38,7 @@
 /************************************
  * FUNCTION DEFINITIONS
  ************************************/
-FSBProtocolTask::FSBProtocolTask():Task(TASK_FSB_PROTOCOL_QUEUE_DEPTH_OBJS)
+FSBProtocolTask::FSBProtocolTask():Task(TASK_FSB_PROTOCOL_DEPTH_OBJS)
 {
 
 }
@@ -50,39 +55,63 @@ void FSBProtocolTask::InitTask()
     BaseType_t rtValue =
         xTaskCreate((TaskFunction_t)FSBProtocolTask::RunTask,
             (const char*)"FSBProtocolTask",
-            (uint16_t)TASK_FSB_PROTOCOL_STACK_DEPTH_WORDS,
+            (uint16_t)TASK_FSB_PROTOCOL_DEPTH_WORDS,
             (void*)this,
-            (UBaseType_t)TASK_FSB_PROTOCOL_DEPTH_WORD,
+            (UBaseType_t)TASK_FSB_PROTOCOL_PRIORITY,
             (TaskHandle_t*)&rtTaskHandle);
 
                 SOAR_ASSERT(rtValue == pdPASS, "FSBProtocolTask::InitTask() - xTaskCreate() failed");
 }
 
-void FSBProtocolTask::HandleCommand(Data test){
+void FSBProtocolTask::Run(void * pvParams){
 
-	//Checks for Data type
-	switch (test.testEnum){
+    while (1) {
+        /* Process commands in blocking mode */
+        Command cm;
+        bool res = qEvtQueue->ReceiveWait(cm);
+        if(res){
 
-	case PRESSURE_DATA:
-		PressureData testing;
-		testing.pressure = 100; //random number to mimic data from test
-		DataBroker::Publish<PressureData>(&testing);
-		break;
+        	HandleCommand(cm);
+        }
+    }
+}
 
-	case IMU_DATA:
-		IMUData imu;
-		imu.accelX = 5;
-		imu.accelY = 10;
-		imu.accelZ = 15;
-		DataBroker::Publish<IMUData>(&imu);
-		break;
+void FSBProtocolTask::HandleCommand(Command& cm){
 
 
-	case THERMOCOUPLE_DATA:
-		ThermocoupleData temp;
-		temp.temperature = 100;
-		DataBroker::Publish<ThermocoupleData>(&temp);
-		break;
+	switch(cm.GetTaskCommand()){
+
+		case PUBLISH_PRESSURE:
+		{
+
+			PressureData pd;
+			pd.pressure = 140;
+			SOAR_PRINT("Pressure published");
+
+			DataBroker::Publish<PressureData>(&pd);
+			break;
+		}
+
+		case PUBLISH_IMU:
+		{
+
+
+			AccelerometerData acceleration = {100, 150, 200};
+			SOAR_PRINT("IMU published");
+			DataBroker::Publish<AccelerometerData>(&acceleration);
+			break;
+		}
+
+		case PUBLISH_THERMOCOUPLE:
+		{
+
+			ThermocoupleData tc;
+			tc.temperature = 150;
+			SOAR_PRINT("Temperature published");
+
+			DataBroker::Publish<ThermocoupleData>(&tc);
+			break;
+		}
 	}
 
 }

@@ -19,7 +19,6 @@
 #include "Logging_Task_M.hpp"
 #include "SystemDefines.hpp"
 #include "Command.hpp"
-#include "stm32h7xx_hal.h"
 #include "DataBroker.hpp"
 #include "DataBrokerMessageTypes.hpp"
 
@@ -67,15 +66,17 @@ void LoggingTask::InitTask()
                 SOAR_ASSERT(rtValue == pdPASS, "LoggingTask::InitTask() - xTaskCreate() failed");
 }
 
+
 /**
  * @brief Instance Run loop for the Task, runs on scheduler start as long as the task is initialized.
  * @param pvParams RTOS Passed void parameters, contains a pointer to the object instance, should not be used
  */
 void LoggingTask::Run(void * pvParams)
 {
-	DataBroker::Subscribe<IMUData>(this->qEvtQueue);
-	DataBroker::Subscribe<PressureData>(this->qEvtQueue);
-	DataBroker::Subscribe<ThermocoupleData>(this->qEvtQueue);
+	DataBroker::Subscribe<AccelerometerData>(this);
+	DataBroker::Subscribe<PressureData>(this);
+	DataBroker::Subscribe<ThermocoupleData>(this);
+
 
     while (1) {
         /* Process commands in blocking mode */
@@ -111,29 +112,46 @@ void LoggingTask::HandleCommand(Command& cm)
 bool LoggingTask::HandleDataBrokerCommand(Command& cm){
 
 	DataBrokerMessageTypes messageType = DataBroker::getMessageType(cm);
+	AccelerometerData accel_data = {};
+	PressureData pressure_data = {};
+	ThermocoupleData thermocouple_data = {};
 
 	switch (messageType){
 
-	case DataBrokerMessageTypes::IMU_DATA:
-		IMUData imu_data = DataBroker::ExtractData<IMUData>(cm);
+	case DataBrokerMessageTypes :: ACCELEROMETER_DATA:
+		accel_data = DataBroker::ExtractData<AccelerometerData>(cm);
 
+
+
+
+		SOAR_PRINT("Data Recieved\n");
+		SOAR_PRINT("accelX: %d\n", accel_data.accelX);
+		SOAR_PRINT("accelY: %d\n", accel_data.accelY);
+		SOAR_PRINT("accelZ: %d\n", accel_data.accelZ);
 
 		//access IMU data, then write data to a file in the fs
 		//Use FreeRTOS FATFS wrapper
 		break;
 	case DataBrokerMessageTypes::PRESSURE_DATA:
-		PressureData pressure_data = DataBroker::ExtractData<PressureData>(cm);
+		pressure_data = DataBroker::ExtractData<PressureData>(cm);
 		//access PressureData data, then write data to a file in the fs
 		//Use FreeRTOS FATFS wrapper
-
+		SOAR_PRINT("Data Recieved");
+		SOAR_PRINT("pressure: %f", pressure_data.pressure);
 		break;
 	case DataBrokerMessageTypes::THERMOCOUPLE_DATA:
-		ThermocoupleData thermocouple_data = DataBroker::ExtractData<ThermocoupleData>(cm);
-
+		thermocouple_data = DataBroker::ExtractData<ThermocoupleData>(cm);
 		//access Thermocouple data, then write data to a file in the fs
 		//Use FreeRTOS FATFS wrapper
+		SOAR_PRINT("Data Recieved\n");
+		SOAR_PRINT("temperature: %f", thermocouple_data.temperature);
 
 		break;
+	case DataBrokerMessageTypes :: INVALID:
+		SOAR_PRINT("Invalid data type");
+	default:
+		break;
+
 
 	}
 

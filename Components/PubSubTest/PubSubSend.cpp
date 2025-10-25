@@ -64,9 +64,7 @@ void PubSubSend::Run(void* pvParams) {
       HandleCommand(cm);
     } else {
       IMUData imuData = {
-          .accelX = 1,
-          .accelY = 2,
-          .accelZ = 3,
+          .imu_stuff = 100
       };
       DataBroker::Publish<IMUData>(&imuData);
 

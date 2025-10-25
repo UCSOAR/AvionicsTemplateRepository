@@ -17,6 +17,11 @@
 /************************************
  * MACROS AND DEFINES
  ************************************/
+enum FSB_TASK_COMMANDS {
+    PUBLISH_IMU =0,
+    PUBLISH_PRESSURE,
+	PUBLISH_THERMOCOUPLE,
+};
 
 /************************************
  * TYPEDEFS
@@ -45,8 +50,8 @@ class FSBProtocolTask: public Task
 		bool RecieveData();
 		static void RunTask(void* pvParams) { FSBProtocolTask::Inst().Run(pvParams); } // Static Task Interface, passes control to the instance Run();
 		void Run(void * pvParams); // Main run code
-		void HandleCommand(Data test);
-		uint8_t debugBuffer[LOGGING_RX_BUFFER_SZ_BYTES + 1];
+		void HandleCommand(Command& cm);
+		//uint8_t debugBuffer[LOGGING_RX_BUFFER_SZ_BYTES + 1];
 
 	private:
 		// Private Functions

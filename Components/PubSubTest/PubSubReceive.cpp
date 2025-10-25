@@ -57,7 +57,7 @@ void PubSubReceive::InitTask() {
  */
 void PubSubReceive::Run(void* pvParams) {
   //  SOAR_PRINT("PUBSUB RECIEVE STARTED\n");
-  DataBroker::Subscribe<IMUData>(this->qEvtQueue);
+  DataBroker::Subscribe<IMUData>(this);
   //  DataBroker::Unsubscribe<IMUData>(this);
   while (1) {
     /* Process commands in blocking mode */
@@ -101,9 +101,8 @@ void PubSubReceive::HandleDataBrokerCommand(const Command& cm) {
     case DataBrokerMessageTypes::IMU_DATA: {
       IMUData imu_data = DataBroker::ExtractData<IMUData>(cm);
       SOAR_PRINT("\n IMU DATA : \n");
-      SOAR_PRINT("  X -> %d \n", imu_data.accelX);
-      SOAR_PRINT("  Y -> %d \n", imu_data.accelY);
-      SOAR_PRINT("  Z -> %d \n", imu_data.accelZ);
+      SOAR_PRINT("  X -> %d \n", imu_data.imu_stuff);
+
       SOAR_PRINT("--DATA_END--\n\n");
       break;
     }

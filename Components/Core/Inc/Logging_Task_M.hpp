@@ -13,7 +13,7 @@
 /************************************
  * INCLUDES
  ************************************/
-#include "SensorDataTypes.hpp"
+//#include "SensorDataTypes.hpp"
 #include "Task.hpp"
 #include "SystemDefines.hpp"
 
@@ -39,6 +39,8 @@ class LoggingTask : public Task
 			static LoggingTask inst;
 			return inst;
 		}
+
+
 
 		void InitTask();
 
