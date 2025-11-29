@@ -10,3 +10,6 @@
 [submodule "SoarCommunications"]
 	path = SoarCommunications
 	url = https://github.com/UCSOAR/CommunicationSystemsSubmodule.git
+[submodule "SoarProtobufs"]
+	path = SoarProtobufs
+	url = https://github.com/StudentOrganisationForAerospaceResearch/SoarProto.git
