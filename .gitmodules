@@ -13,3 +13,4 @@
 [submodule "SoarProtobufs"]
 	path = SoarProtobufs
 	url = https://github.com/StudentOrganisationForAerospaceResearch/SoarProto.git
+	branch = Jad/Protobufs
