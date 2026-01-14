@@ -76,6 +76,7 @@ void DebugTask::Run(void* pvParams) {
     }
 
     cm.Reset();
+
   }
 }
 
